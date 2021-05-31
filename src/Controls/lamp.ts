@@ -1,33 +1,18 @@
 import chalk from 'chalk';
 import express from 'express';
 import SerialPort from 'serialport';
+import i2c from 'i2c-bus';
 
 const lampRouter = express.Router();
-// ENTER A PORT!
-const lamp = new SerialPort('', { baudRate: 9600, dataBits: 8 }, err =>
-  console.log(err?.message)
-);
 
 lampRouter.get('/on', (_, res) => {
-  const buffer = new Buffer(1);
-  buffer[0] = 0x0;
-  lamp.write(buffer, err => {
-    if (err) {
-      console.log(chalk.red(err.message));
-    }
-  });
-  res.send({ lamp: 'on' });
+  const lamp = i2c.openSync(1);
+  lamp.writeByte(0x8, 1, 0x1, () => console.log('SENT ON COMMAND!'));
 });
 
 lampRouter.get('/off', (_, res) => {
-  const buffer = new Buffer(1);
-
-  buffer[0] = 0x1;
-  lamp.write(buffer, err => {
-    if (err) {
-      console.log(chalk.red(err.message));
-    }
-  });
+  const lamp = i2c.openSync(1);
+  lamp.writeByte(0x8, 1, 0x0, () => console.log('SENT OFF COMMAND!'));
 
   res.send({ lamp: 'off' });
 });

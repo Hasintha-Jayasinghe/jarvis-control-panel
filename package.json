@@ -9,6 +9,7 @@
   "devDependencies": {
     "@types/chalk": "^2.2.0",
     "@types/express": "^4.17.12",
+    "@types/i2c-bus": "^5.1.0",
     "@types/node": "^15.6.1",
     "@types/serialport": "^8.0.1",
     "ts-node-dev": "^1.1.6",
@@ -17,10 +18,12 @@
   "dependencies": {
     "chalk": "^4.1.1",
     "express": "^4.17.1",
+    "i2c-bus": "^5.2.2",
     "onoff": "^6.0.3",
     "serialport": "^9.1.0"
   },
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only src/index.ts"
+    "start": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc"
   }
 }
