@@ -6,14 +6,14 @@ const lampRouter = express.Router();
 
 lampRouter.get('/on', (_, res) => {
   const lamp = i2c.openSync(1);
-  lamp.writeByteSync(0x8, 0, 0x1);
+  lamp.writeByteSync(0x8, 0, 1);
 
   res.send({ lamp: 'on' });
 });
 
 lampRouter.get('/off', (_, res) => {
   const lamp = i2c.openSync(1);
-  lamp.writeByteSync(0x8, 0, 0x0);
+  lamp.writeByteSync(0x8, 0, 0);
 
   res.send({ lamp: 'off' });
 });
