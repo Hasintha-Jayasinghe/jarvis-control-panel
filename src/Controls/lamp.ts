@@ -1,16 +1,34 @@
+import chalk from 'chalk';
 import express from 'express';
-import { Gpio } from 'onoff';
+import SerialPort from 'serialport';
 
 const lampRouter = express.Router();
-const lamp = new Gpio(18, 'out');
+// ENTER A PORT!
+const lamp = new SerialPort('', { baudRate: 9600, dataBits: 8 }, err =>
+  console.log(err?.message)
+);
 
 lampRouter.get('/on', (_, res) => {
-  lamp.writeSync(1);
+  const buffer = new Buffer(1);
+  buffer[0] = 0x0;
+  lamp.write(buffer, err => {
+    if (err) {
+      console.log(chalk.red(err.message));
+    }
+  });
   res.send({ lamp: 'on' });
 });
 
 lampRouter.get('/off', (_, res) => {
-  lamp.writeSync(0);
+  const buffer = new Buffer(1);
+
+  buffer[0] = 0x1;
+  lamp.write(buffer, err => {
+    if (err) {
+      console.log(chalk.red(err.message));
+    }
+  });
+
   res.send({ lamp: 'off' });
 });
 
