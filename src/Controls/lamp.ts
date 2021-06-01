@@ -4,7 +4,7 @@ import SerialPort from 'serialport';
 
 const lampRouter = express.Router();
 // ENTER A PORT!
-const lamp = new SerialPort('', { baudRate: 9600, dataBits: 8 }, err =>
+const lamp = new SerialPort('/dev/i2c-1', err =>
   console.log(err?.message)
 );
 
